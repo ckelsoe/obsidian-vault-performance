@@ -1,0 +1,11 @@
+{
+	"id": "vault-performance",
+	"name": "Vault Performance",
+	"version": "0.1.0",
+	"minAppVersion": "1.13.0",
+	"description": "Find what slows your vault down: slow plugins, heavy notes, constant file writes, and indexing delays, measured on your own machine.",
+	"author": "Charles Kelsoe (ckelsoe)",
+	"authorUrl": "https://github.com/ckelsoe",
+	"fundingUrl": "https://buymeacoffee.com/ckelsoe",
+	"isDesktopOnly": true
+}

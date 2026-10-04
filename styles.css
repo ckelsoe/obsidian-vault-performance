@@ -1,0 +1,24 @@
+.vault-performance-settings-footer {
+	justify-content: center;
+	text-align: center;
+	opacity: 0.8;
+}
+
+.vault-performance-footer-inner {
+	display: flex;
+	flex-wrap: wrap;
+	align-items: center;
+	justify-content: center;
+	gap: var(--size-4-2);
+}
+
+.vault-performance-footer-link {
+	display: inline-flex;
+	align-items: center;
+	gap: var(--size-4-2);
+	white-space: nowrap;
+}
+
+.vault-performance-footer-separator {
+	color: var(--text-faint);
+}
