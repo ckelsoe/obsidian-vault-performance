@@ -1,10 +1,12 @@
 import {
 	type App,
-	type Plugin,
 	PluginSettingTab,
 	type Setting,
-	type SettingDefinition,
+	type SettingDefinitionItem,
 } from 'obsidian';
+
+import type VaultPerformancePlugin from './main';
+import { isValidThreshold } from './settings';
 
 // Community discussion for this plugin. This must stay a never-expiring
 // discord.gg invite: a discord.com/channels/... deep link only resolves for
@@ -17,13 +19,36 @@ const REPO_URL = 'https://github.com/ckelsoe/obsidian-vault-performance';
 export class VaultPerformanceSettingTab extends PluginSettingTab {
 	constructor(
 		app: App,
-		private readonly plugin: Plugin,
+		private readonly plugin: VaultPerformancePlugin,
 	) {
 		super(app, plugin);
 	}
 
-	override getSettingDefinitions(): SettingDefinition[] {
+	override getSettingDefinitions(): SettingDefinitionItem[] {
 		return [
+			{
+				type: 'group',
+				heading: 'Reports',
+				items: [
+					{
+						name: 'Include note paths in reports',
+						desc: 'Off: copied and saved reports call notes "Note 1", "Note 2" and so on. Paths can be personal, so they stay out unless you turn this on. The report tab always shows real paths.',
+						control: { type: 'toggle', key: 'includePaths' },
+					},
+					{
+						name: 'Large note size in MB',
+						desc: 'Notes this size or larger are listed as large.',
+						control: {
+							type: 'number',
+							key: 'largeNoteMb',
+							validate: (value: number) =>
+								isValidThreshold(value)
+									? undefined
+									: 'Enter a size above 0.',
+						},
+					},
+				],
+			},
 			{
 				name: 'About',
 				searchable: false,
@@ -32,6 +57,28 @@ export class VaultPerformanceSettingTab extends PluginSettingTab {
 				},
 			},
 		];
+	}
+
+	override getControlValue(key: string): unknown {
+		const settings = this.plugin.settings as unknown as Record<
+			string,
+			unknown
+		>;
+		return Object.prototype.hasOwnProperty.call(settings, key)
+			? settings[key]
+			: undefined;
+	}
+
+	override async setControlValue(key: string, value: unknown): Promise<void> {
+		const { settings } = this.plugin;
+		if (key === 'includePaths' && typeof value === 'boolean') {
+			settings.includePaths = value;
+		} else if (key === 'largeNoteMb' && isValidThreshold(value)) {
+			settings.largeNoteMb = value;
+		} else {
+			return;
+		}
+		await this.plugin.saveSettings();
 	}
 
 	private renderFooter(setting: Setting): void {

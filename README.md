@@ -4,6 +4,32 @@
 
 Find what slows your vault down: slow plugins, heavy notes, constant file writes, and indexing delays, measured on your own machine.
 
+Vault Performance is being built in stages. This release takes a snapshot of the vault. Measuring file writes, indexing delays, and plugins that freeze the interface come in later releases.
+
+## Vault snapshot
+
+Run **Vault Performance: Open vault snapshot** from the command palette. A tab opens with:
+
+- How many notes and attachments the vault holds, and their total size.
+- Every note at or above the large-note size (1 MB by default). Obsidian's metadata cache parses a note again each time it changes, so a large note that changes often slows the vault.
+- The ten largest notes and the ten largest attachments.
+- Your enabled community plugins and their versions.
+
+The snapshot reads file sizes Obsidian already knows. It opens no files.
+
+**Copy report** puts the report on the clipboard as Markdown, ready to paste into a bug report or forum post. **Save report as note** saves it as a new note in the vault root.
+
+### Privacy
+
+Note paths can be personal, so copied and saved reports call notes "Note 1", "Note 2" and so on, and attachments "Attachment 1 (.pdf)". The tab itself always shows real paths, since it never leaves your device. To include paths in copied and saved reports, turn on **Include note paths in reports** in the plugin settings.
+
+The plugin has no network code. Nothing is sent anywhere.
+
+## Settings
+
+- **Include note paths in reports**: off by default.
+- **Large note size in MB**: notes this size or larger are listed as large. Default 1.
+
 ## Installation
 
 ### From Obsidian Community Plugins (recommended)

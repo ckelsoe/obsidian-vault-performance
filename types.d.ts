@@ -2,7 +2,18 @@
 // Add type declarations here when the Obsidian types are missing or need extension.
 // NEVER use `as any` to work around missing types. Add a proper declaration here instead.
 
-import 'obsidian';
+import type { PluginManifest } from 'obsidian';
+
+declare module 'obsidian' {
+	// Obsidian's community plugin registry. Internal and undocumented, so it is
+	// optional here and every read guards for it being absent.
+	interface App {
+		plugins?: {
+			manifests?: Record<string, PluginManifest | undefined>;
+			enabledPlugins?: Set<string>;
+		};
+	}
+}
 
 declare global {
 	// Obsidian installs createEl / createDiv / createSpan on every window, but
