@@ -22,3 +22,20 @@
 .vault-performance-footer-separator {
 	color: var(--text-faint);
 }
+
+.vault-performance-toolbar {
+	display: flex;
+	flex-wrap: wrap;
+	gap: var(--size-4-2);
+	margin-bottom: var(--size-4-2);
+}
+
+.vault-performance-privacy {
+	color: var(--text-muted);
+	font-size: var(--font-ui-small);
+	margin-bottom: var(--size-4-4);
+}
+
+.vault-performance-body {
+	user-select: text;
+}

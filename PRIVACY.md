@@ -10,7 +10,12 @@ The plugin collects nothing, stores nothing outside your own vault, and sends no
 
 ## What the plugin does
 
-This version adds a settings tab and nothing else. It reads no notes and writes no files. This section will describe exactly what the plugin measures, and what it writes, as each measurement ships.
+- **Vault snapshot.** When you open the snapshot, the plugin reads the size of every file from the index Obsidian already keeps, and the names and versions of your installed community plugins. It opens no files and reads no note contents.
+- **Copy report** puts the report on your clipboard. Nothing else happens until you paste it somewhere.
+- **Save report as note** writes the report as a new note in your vault root. This is the only file the plugin writes, and only when you click the button.
+- Copied and saved reports replace note and attachment paths with labels such as "Note 1" unless you turn on **Include note paths in reports**.
+
+This section will describe exactly what each new measurement reads and writes as it ships.
 
 ## Data collection
 

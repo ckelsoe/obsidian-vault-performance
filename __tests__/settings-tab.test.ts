@@ -1,4 +1,7 @@
-import type { App, Plugin, Setting } from 'obsidian';
+import type { App, Setting } from 'obsidian';
+
+import type VaultPerformancePlugin from '../main';
+import { DEFAULT_SETTINGS, type VaultPerformanceSettings } from '../settings';
 
 import { VaultPerformanceSettingTab } from '../settings-tab';
 
@@ -54,7 +57,9 @@ function fakeEl(tag: string): FakeEl {
 }
 
 function renderFooter(version: string): FakeEl {
-	const plugin = { manifest: { version } } as unknown as Plugin;
+	const plugin = {
+		manifest: { version },
+	} as unknown as VaultPerformancePlugin;
 	const tab = new VaultPerformanceSettingTab({} as App, plugin);
 	const defs = tab.getSettingDefinitions();
 	const last = defs[defs.length - 1] as unknown as {
@@ -116,6 +121,68 @@ describe('settings footer', () => {
 			'Open the plugin repository on GitHub',
 			'Join the community on Discord',
 			'Report an issue on GitHub',
+		]);
+	});
+});
+
+describe('settings controls', () => {
+	function makeTab(): {
+		tab: VaultPerformanceSettingTab;
+		plugin: { settings: VaultPerformanceSettings; saves: number };
+	} {
+		const plugin = {
+			manifest: { version: '0.1.0' },
+			settings: { ...DEFAULT_SETTINGS },
+			saves: 0,
+			saveSettings(): Promise<void> {
+				plugin.saves++;
+				return Promise.resolve();
+			},
+		};
+		const tab = new VaultPerformanceSettingTab(
+			{} as App,
+			plugin as unknown as VaultPerformancePlugin,
+		);
+		return { tab, plugin };
+	}
+
+	it('reads stored values and nothing from the prototype chain', () => {
+		const { tab } = makeTab();
+		expect(tab.getControlValue('includePaths')).toBe(false);
+		expect(tab.getControlValue('largeNoteMb')).toBe(1);
+		expect(tab.getControlValue('toString')).toBeUndefined();
+	});
+
+	it('saves valid values', async () => {
+		const { tab, plugin } = makeTab();
+		await tab.setControlValue('includePaths', true);
+		await tab.setControlValue('largeNoteMb', 0.5);
+		expect(plugin.settings).toEqual({
+			includePaths: true,
+			largeNoteMb: 0.5,
+		});
+		expect(plugin.saves).toBe(2);
+	});
+
+	it('ignores invalid values and unknown keys without saving', async () => {
+		const { tab, plugin } = makeTab();
+		await tab.setControlValue('includePaths', 'yes');
+		await tab.setControlValue('largeNoteMb', 0);
+		await tab.setControlValue('largeNoteMb', Number.NaN);
+		await tab.setControlValue('other', 1);
+		expect(plugin.settings).toEqual(DEFAULT_SETTINGS);
+		expect(plugin.saves).toBe(0);
+	});
+
+	it('offers the two report controls before the footer', () => {
+		const { tab } = makeTab();
+		const [group] = tab.getSettingDefinitions() as unknown as [
+			{ heading: string; items: { control: { key: string } }[] },
+		];
+		expect(group.heading).toBe('Reports');
+		expect(group.items.map((i) => i.control.key)).toEqual([
+			'includePaths',
+			'largeNoteMb',
 		]);
 	});
 });

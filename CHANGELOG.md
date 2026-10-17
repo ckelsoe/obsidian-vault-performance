@@ -8,4 +8,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ## [Unreleased]
 
 ### Added
-- Project scaffold: settings tab with version and community links.
+- Vault snapshot: a report tab with note and attachment counts and sizes, large notes, the largest notes and attachments, and enabled plugins with versions. Open it with the **Open vault snapshot** command.
+- Copy the report as Markdown, or save it as a note. Note paths are hidden in copied and saved reports unless you turn on **Include note paths in reports**.
+- Setting for the large-note size (1 MB by default).
+- Settings tab with version and community links.
