@@ -9,14 +9,14 @@ Vault Performance is an Obsidian community plugin that finds what slows a vault 
 - `main.ts`: plugin entry point. Wiring only (lifecycle, commands, settings tab). No measurement logic.
 - `settings-tab.ts`: declarative settings tab (`getSettingDefinitions()`), ending with the mandatory version and links footer.
 - Measurement code lives in its own service modules, one per concern, each with pure functions that can be unit-tested.
-- `__tests__/`: Jest tests. `__mocks__/obsidian.ts`: runtime stand-in for the types-only `obsidian` package.
+- `__tests__/`: Vitest tests. `__mocks__/obsidian.ts`: runtime stand-in for the types-only `obsidian` package.
 - `styles.css`: all styling. No inline `style` attributes.
 
 ## Commands
 
 - `npm run build`: type-check and bundle.
 - `npm run lint`: ESLint (`eslint-plugin-obsidianmd` recommended, type-aware), Prettier check, submission pre-check, and the marketplace-scan type-check. Must report zero warnings.
-- `npm test`: Jest.
+- `npm test`: Vitest.
 - `npm run knip`, `npm run type-coverage` (at least 99%).
 
 ## Hard rules
