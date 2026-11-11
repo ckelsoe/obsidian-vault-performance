@@ -49,7 +49,7 @@ describe('isValidThreshold', () => {
 		[Number.POSITIVE_INFINITY, false],
 		[Number.NaN, false],
 		['1', false],
-	])('%p -> %p', (value, expected) => {
+	])('%o -> %o', (value, expected) => {
 		expect(isValidThreshold(value)).toBe(expected);
 	});
 });

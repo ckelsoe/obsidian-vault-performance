@@ -155,7 +155,7 @@ describe('formatting helpers', () => {
 		[1024 * 1024 * MB, '1.00 TB'],
 		[MB, '1.0 MB'],
 		[1024 * MB, '1.00 GB'],
-	])('formatBytes(%p) = %p', (bytes, expected) => {
+	])('formatBytes(%o) = %o', (bytes, expected) => {
 		expect(formatBytes(bytes)).toBe(expected);
 	});
 
@@ -182,7 +182,7 @@ describe('formatting helpers', () => {
 			'Health/Diagnosis 2026-10-04 (draft).md',
 			'Health/Diagnosis 2026-10-04 (draft).md',
 		],
-	])('escapes inline Markdown in %p', (input, expected) => {
+	])('escapes inline Markdown in %o', (input, expected) => {
 		expect(escapeCell(input)).toBe(expected);
 	});
 });
